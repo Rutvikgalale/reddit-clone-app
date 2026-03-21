@@ -6,7 +6,7 @@ pipeline{
   }
   environment{
     SCANNER_HOME = tool('sonar-scanner')
-    APP_NAME = "rediit-clone-app"
+    APP_NAME = "reddit-clone-app"
     DOCKER_USER = "rutvikg"
     DOCKER_PASS = "dockerhub"
     IMAGE_NAME = "${DOCKER_USER}" + "/" + "${APP_NAME}"
