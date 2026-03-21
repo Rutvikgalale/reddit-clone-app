@@ -20,7 +20,7 @@ pipeline{
     }
     stage("code checkout"){
       steps{
-        git branch "main", url: "https://github.com/Rutvikgalale/reddit-clone-app.git"
+        git branch: "main", url: "https://github.com/Rutvikgalale/reddit-clone-app.git"
       }
     }
     stage("sonarqube analysis"){
