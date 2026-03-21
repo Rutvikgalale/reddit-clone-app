@@ -9,7 +9,7 @@ pipeline{
     APP_NAME = "rediit-clone-app"
     DOCKER_USER = "rutvikg"
     DOCKER_PASS = "dockerhub"
-    IMAGE_NAME = "${DOCKER_USER}" + "/" + "APP_NAME"
+    IMAGE_NAME = "${DOCKER_USER}" + "/" + "${APP_NAME}"
     IMAGE_TAG = "${BUILD_NUMBER}"
   }
   stages{
@@ -25,7 +25,7 @@ pipeline{
     }
     stage("sonarqube analysis"){
       steps{
-        withSonarQubeEnv("sonar-scanner"){
+        withSonarQubeEnv("sonar-server"){
           sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=reddit-clone-CI \
           -Dsonar.projectKey=reddit-clone-CI
              '''
