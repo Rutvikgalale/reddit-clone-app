@@ -56,20 +56,10 @@ pipeline {
         sh "docker tag ${APP_NAME} ${IMAGE_NAME}:${IMAGE_TAG}"
       }
     }
-    stage("trivy image scan") {
+    stage("Trivy Image Scan") {
       steps {
         script {
-          sh """
-          docker run --rm \
-          -v /var/run/docker.sock:/var/run/docker.sock \
-          aquasec/trivy image ${IMAGE_NAME}:${IMAGE_TAG} \
-          --no-progress \
-          --scanners vuln \
-          --severity HIGH,CRITICAL \
-          --ignore-unfixed \
-          --exit-code 0 \
-          --format table
-          """
+          sh ('docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image ashfaque9x/reddit-clone-pipeline:latest --no-progress --scanners vuln  --exit-code 0 --severity HIGH,CRITICAL --format table > trivyimage.txt')
         }
       }
     }
