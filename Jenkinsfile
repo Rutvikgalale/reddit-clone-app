@@ -44,6 +44,11 @@ pipeline{
         sh "npm install"
       }
     }
+    stage("docker build"){
+      steps{
+        sh "docker build -t reddit-app ."
+      }
+    }
     stage("trivy fs scan"){
       steps{
         sh "trivy fs . > trivyfs.txt"
