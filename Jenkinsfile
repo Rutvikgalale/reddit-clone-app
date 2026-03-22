@@ -73,5 +73,12 @@ pipeline {
         }
       }
     }
+    stage("cleaning artifact"){
+      steps{
+        sh "docker rmi ${IMAGE_NAME}:${IMAGE_TAG}"
+        sh "docker rmi ${IMAGE_NAME}:latet}"
+        sh "docker image prune -f || true"
+      }
+    }
   }
 }
