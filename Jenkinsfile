@@ -46,8 +46,8 @@ pipeline{
     }
     stage("docker build"){
       steps{
-        sh "docker build -t "${APP_NAME}" ."
-        sh "docker tag "${IMAGE_NAME}:${IMAGE_TAG}"
+        sh "docker build -t ${APP_NAME} . "
+        sh "docker tag ${IMAGE_NAME}:${IMAGE_TAG}"
       }
     }
     stage("trivy fs scan"){
