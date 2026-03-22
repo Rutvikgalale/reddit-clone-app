@@ -44,17 +44,35 @@ pipeline{
         sh "npm install"
       }
     }
+    stage("trivy fs scan"){
+      steps{
+        sh "trivy fs . > trivyfs.txt"
+      }
+    }
     stage("docker build"){
       steps{
         sh "docker build -t ${APP_NAME} . "
         sh "docker tag ${APP_NAME} ${IMAGE_NAME}:${IMAGE_TAG}"
       }
     }
-    stage("trivy fs scan"){
+    stage("trivy image scan"){
       steps{
-        sh "trivy fs . > trivyfs.txt"
+        script{
+          sh """
+          docker run --rm \
+          -v /var/run/docker.sock:/var/run/docker.sock \
+          aquasec/trivy image ${IMAGE_NAME}:${IMAGE_TAG} \
+          --no-progress \
+          --scanners vuln \
+          --severity HIGH,CRITICAL \
+          --ignore-unfixed \
+          --exit-code 1 \
+          --format table
+          """
+        }
       }
     }
+
     stage("docker push"){
       steps{
         withCredentials([usernamePassword(credentialsId: 'docker', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
