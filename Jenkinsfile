@@ -76,7 +76,7 @@ pipeline {
     stage("cleaning artifact"){
       steps{
         sh "docker rmi ${IMAGE_NAME}:${IMAGE_TAG}"
-        sh "docker rmi ${IMAGE_NAME}:latet}"
+        sh "docker rmi ${IMAGE_NAME}:latest}"
         sh "docker image prune -f || true"
       }
     }
