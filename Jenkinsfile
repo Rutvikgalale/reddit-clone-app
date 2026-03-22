@@ -9,7 +9,7 @@ pipeline{
     APP_NAME = "reddit-clone-app"
     DOCKER_USER = "rutvikg"
     DOCKER_PASS = "dockerhub"
-    IMAGE_NAME = "${DOCKER_USER}" + "/" + "${APP_NAME}"
+    IMAGE_NAME = "${DOCKER_USER}/${APP_NAME}"
     IMAGE_TAG = "${BUILD_NUMBER}"
   }
   stages{
@@ -46,7 +46,8 @@ pipeline{
     }
     stage("docker build"){
       steps{
-        sh "docker build -t reddit-app ."
+        sh "docker build -t "${APP_NAME}" ."
+        sh "docker tag "${IMAGE_NAME}:${IMAGE_TAG}"
       }
     }
     stage("trivy fs scan"){
