@@ -77,7 +77,7 @@ pipeline {
       steps{
         sh "docker rmi ${IMAGE_NAME}:${IMAGE_TAG} || true"
         sh "docker rmi ${IMAGE_NAME}:latest || true"
-        sh "docker image prune -a || true"
+        sh "docker image prune -af || true"
       }
     }
   }
