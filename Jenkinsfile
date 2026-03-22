@@ -55,5 +55,10 @@ pipeline{
         sh "trivy fs . > trivyfs.txt"
       }
     }
+    stage("docker push"){
+      steps{
+        sh "docker push ${APP_NAME} ${IMAGE_NAME}:${IMAGE_TAG}"
+      }
+    }
   }
 }
