@@ -26,13 +26,14 @@ pipeline {
     stage("sonarqube analysis") {
       steps {
         withSonarQubeEnv("sonar-server") {
-          sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=reddit-clone-CI \
-          -Dsonar.projectKey=reddit-clone-CI \
-          -Dsonar.sources=. \
-          -Dsonar.exclusions=**/node_modules/**,**/coverage/**,**/*.spec.js,**/*.test.ts
-          -Dsonar.sourceEncoding=UTF-8 \
-          -Dsonar.typescript.tsconfigPath=tsconfig.json
-          '''
+          sh """
+            $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=reddit-clone-CI \
+              -Dsonar.projectKey=reddit-clone-CI \
+              -Dsonar.sources=. \
+              -Dsonar.exclusions=**/node_modules/**,**/coverage/**,**/*.spec.js,**/*.test.ts
+              -Dsonar.sourceEncoding=UTF-8 \
+              -Dsonar.typescript.tsconfigPath=tsconfig.json
+          """
         }
       }
     }
