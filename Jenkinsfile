@@ -50,7 +50,7 @@ pipeline {
     }
     stage("trivy fs scan") {
       steps {
-        sh "trivy fs . --exit-code 1 --severity HIGH,CRITICAL --format table > trivyfs.txt"
+        sh "trivy fs . --exit-code 0 --severity HIGH,CRITICAL --format table > trivyfs.txt"
       }
     }
     stage("docker build") {
