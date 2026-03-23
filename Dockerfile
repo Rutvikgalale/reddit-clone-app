@@ -12,7 +12,9 @@ COPY package*.json ./
 RUN npm install
 
 # Copy remaining app files
-COPY . .
+COPY src/ ./src/
+COPY public/ ./public/
+COPY .env.example ./
 
 # Change ownership
 RUN chown -R appuser:appgroup /app
