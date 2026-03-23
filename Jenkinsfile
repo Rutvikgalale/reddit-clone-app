@@ -87,15 +87,20 @@ pipeline {
       }
     }
   }
-   post{
-   always{
-      emailtext attachLog: true,
-          subject: "'${currentBuild.result}'",
-          body: "Project: ${env.JOB_NAME}<br/>" +
-              "Build Number: ${env.BUILD_NUMBER}<br/>" +
-              "URL: ${env.BUILD_URL}<br/>",
-          to: 'rutvikgalale@gmail.com',
-          attachmentsPattern: 'trivyfs.txt,trivyimage.txt'
+   post {
+    always {
+        emailext(
+            attachLog: true,
+            subject: "${currentBuild.currentResult}",
+            body: """
+                Project: ${env.JOB_NAME}<br/>
+                Build Number: ${env.BUILD_NUMBER}<br/>
+                URL: <a href="${env.BUILD_URL}">${env.BUILD_URL}</a><br/>
+            """,
+            mimeType: 'text/html',
+            to: 'rutvikgalale@gmail.com',
+            attachmentsPattern: 'trivyfs.txt,trivyimage.txt'
+        )
     }
-  }
+   }
 }
