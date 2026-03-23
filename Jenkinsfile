@@ -29,25 +29,27 @@ pipeline {
           sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=reddit-clone-CI \
           -Dsonar.projectKey=reddit-clone-CI \
           -Dsonar.sources=. \
-          -Dsonar.exclusions=**/*.js,**/*.ts
+          -Dsonar.exclusions=**/node_modules/**,**/coverage/**,**/*.spec.js,**/*.test.ts
+          -Dsonar.sourceEncoding=UTF-8 \
+          -Dsonar.typescript.tsconfigPath=tsconfig.json
           '''
         }
       }
     }
     stage("Quality Gate") {
       steps {
-        waitForQualityGate abortPipeline: false, credentialsId: 'sonar-token'
+        waitForQualityGate abortPipeline: true, credentialsId: 'sonar-token'
       }
     }
     stage("install dependencies") {
       steps {
         // Skip peer dependency conflicts
-        sh "npm install --legacy-peer-deps"
+        sh "npm ci --legacy-peer-deps"
       }
     }
     stage("trivy fs scan") {
       steps {
-        sh "trivy fs . > trivyfs.txt || true"
+        sh "trivy fs . --exit-code 1 --severity HIGH,CRITICAL --format table > trivyfs.txt"
       }
     }
     stage("docker build") {
@@ -59,7 +61,7 @@ pipeline {
     stage("Trivy Image Scan") {
       steps {
         script {
-          sh "docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy:0.49.1 image ${IMAGE_NAME}:${IMAGE_TAG} --no-progress --scanners vuln  --exit-code 0 --severity HIGH,CRITICAL --format table > trivyimage.txt"
+          sh "docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy:0.49.1 image ${IMAGE_NAME}:${IMAGE_TAG} --no-progress --scanners vuln  --exit-code 1 --severity HIGH,CRITICAL --format table > trivyimage.txt"
         }
       }
     }
