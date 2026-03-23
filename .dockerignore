@@ -1,0 +1,23 @@
+# Dependencies
+node_modules
+
+# Git
+.git
+.gitignore
+
+# Environment / secrets
+.env
+.env.*
+.firebase
+
+# CI/CD
+Jenkinsfile
+
+# Docs & misc
+README.md
+npm-debug.log
+coverage
+
+# Docker files themselves
+Dockerfile
+docker-compose.yml
