@@ -80,9 +80,9 @@ pipeline {
            echo "Stopping and removing containers..."
            docker ps -aq | xargs -r docker rm -f
 
-           docker rmi -f ${IMAGE_NAME}:${IMAGE_TAG} || true"
-           docker rmi -f ${IMAGE_NAME}:latest || true"
-           docker image prune -af || true"
+           docker rmi -f ${IMAGE_NAME}:${IMAGE_TAG} || true
+           docker rmi -f ${IMAGE_NAME}:latest || true
+           docker image prune -af || true
            """
       }
     }
