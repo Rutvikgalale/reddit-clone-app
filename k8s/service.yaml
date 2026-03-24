@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: reddit-clone-app-service
+  labels:
+    app: reddit-clone-app
+spec:
+  type: LoadBalancer
+  selector:
+    app: rediit-clone-app
+  ports:
+    - Port: 3000
+      targetPort: 3000

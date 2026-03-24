@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reddit-clone-app-deployment
+  labels:
+    app: reddit-clone-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: reddit-clone-app
+  template:
+    metadata:
+      labels:
+        app: rediit-clone-app
+    spec:
+      containers:
+        - name: reddit-clone-app
+          image: rutvikg/reddit-clone-app
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
