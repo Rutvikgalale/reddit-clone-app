@@ -12,7 +12,7 @@ spec:
   template:
     metadata:
       labels:
-        app: rediit-clone-app
+        app: reddit-clone-app
     spec:
       containers:
         - name: reddit-clone-app
