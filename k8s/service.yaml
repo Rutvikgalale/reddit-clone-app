@@ -9,5 +9,5 @@ spec:
   selector:
     app: rediit-clone-app
   ports:
-    - Port: 3000
+    - Port: 80
       targetPort: 3000
