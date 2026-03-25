@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: reddit-clone-app
-          image: rutvikg/reddit-clone-app
+          image: rutvikg/reddit-clone-app:72
           imagePullPolicy: Always
           ports:
             - containerPort: 3000
