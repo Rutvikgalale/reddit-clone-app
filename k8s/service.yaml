@@ -9,7 +9,7 @@ metadata:
 spec:
   type: LoadBalancer
   selector:
-    app: rediit-clone-app
+    app: reddit-clone-app
   ports:
     - Port: 80
       targetPort: 3000
