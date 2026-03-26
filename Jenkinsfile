@@ -86,7 +86,6 @@ pipeline {
         }
       }
     }
-  }
   stage("cleaning artifact"){
       steps{
         sh """
@@ -100,6 +99,7 @@ pipeline {
            """
       }
     }
+  }
    post {
     always {
         emailext(
