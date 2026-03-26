@@ -79,7 +79,15 @@ pipeline {
         }
       }
     }
-    stage("cleaning artifact"){
+    stage("CD pipeline"){
+      steps{
+        script{
+          sh "curl -v -k --user admin:${JENKINS_API_TOKEN} -X POST -H 'cache-control: no-cache' -H 'content-type: application/x-www-form-urlencoded' --data 'IMAGE_TAG=${IMAGE_TAG}' 'ec2-65-2-187-142.ap-south-1.compute.amazonaws.com:8080/job/reddit-clone-app/buildWithParameters?token=gitops-token'"
+        }
+      }
+    }
+  }
+  stage("cleaning artifact"){
       steps{
         sh """
           
@@ -92,14 +100,6 @@ pipeline {
            """
       }
     }
-    stage("CD pipeline"){
-      steps{
-        script{
-          sh "curl -v -k --user admin:${JENKINS_API_TOKEN} -X POST -H 'cache-control: no-cache' -H 'content-type: application/x-www-form-urlencoded' --data 'IMAGE_TAG=${IMAGE_TAG}' 'ec2-65-2-187-142.ap-south-1.compute.amazonaws.com:8080/job/reddit-clone-app/buildWithParameters?token=gitops-token'"
-        }
-      }
-    }
-  }
    post {
     always {
         emailext(
