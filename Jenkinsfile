@@ -70,28 +70,22 @@ pipeline {
       }
     }
     stage("docker push") {
-      steps {
-        withCredentials([usernamePassword(credentialsId: 'docker', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-          sh """
-          echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
-          docker push ${IMAGE_NAME}:${IMAGE_TAG}
-          """
+    steps {
+        withCredentials([string(credentialsId: 'JENKINS_API_TOKEN', variable: 'JENKINS_API_TOKEN')]) {
+            script {
+                sh """
+                curl -v -k --user admin:${env.JENKINS_API_TOKEN} \
+                  -X POST \
+                  -H 'cache-control: no-cache' \
+                  -H 'content-type: application/x-www-form-urlencoded' \
+                  --data 'IMAGE_TAG=${IMAGE_TAG}' \
+                  'http://ec2-65-2-187-142.ap-south-1.compute.amazonaws.com:8080/job/reddit-clone-app/buildWithParameters?token=gitops-token'
+                """
+            }
         }
-      }
-    }
-    withCredentials([string(credentialsId: 'JENKINS_API_TOKEN', variable: 'JENKINS_API_TOKEN')]) {
-    script {
-        sh """
-        curl -v -k \
-          --user admin:${env.JENKINS_API_TOKEN} \
-          -X POST \
-          -H 'cache-control: no-cache' \
-          -H 'content-type: application/x-www-form-urlencoded' \
-          --data 'IMAGE_TAG=${IMAGE_TAG}' \
-          'http://ec2-65-2-187-142.ap-south-1.compute.amazonaws.com:8080/job/reddit-clone-app/buildWithParameters?token=gitops-token'
-        """
     }
 }
+
     stage("cleaning artifact"){
       steps{
         sh """
