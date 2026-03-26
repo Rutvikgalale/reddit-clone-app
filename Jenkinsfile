@@ -88,7 +88,7 @@ pipeline {
                   -H 'cache-control: no-cache' \
                   -H 'content-type: application/x-www-form-urlencoded' \
                   --data 'IMAGE_TAG=${IMAGE_TAG}' \
-                  'http://ec2-65-2-187-142.ap-south-1.compute.amazonaws.com:8080/job/reddit-clone-app/buildWithParameters?token=gitops-token'
+                  'http://ec2-65-0-97-54.ap-south-1.compute.amazonaws.com:8080/job/reddit-clone-app/buildWithParameters?token=gitops-token'
                 """
             }
         }
