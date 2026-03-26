@@ -70,22 +70,14 @@ pipeline {
       }
     }
 
-    stage("docker push") {
-    steps {
-        withCredentials([string(credentialsId: 'JENKINS_API_TOKEN', variable: 'JENKINS_API_TOKEN')]) {
-            script {
-                sh """
-                curl -v -k --user admin:${env.JENKINS_API_TOKEN} \
-                  -X POST \
-                  -H 'cache-control: no-cache' \
-                  -H 'content-type: application/x-www-form-urlencoded' \
-                  --data 'IMAGE_TAG=${IMAGE_TAG}' \
-                  'http://ec2-65-0-97-54.ap-south-1.compute.amazonaws.com:8080/job/reddit-clone-app/buildWithParameters?token=gitops-token'
-                """
+     stage("Trigger CD Pipeline") {
+            steps {
+                script {
+                    sh "curl -v -k --user clouduser:${JENKINS_API_TOKEN} -X POST -H 'cache-control: no-cache' -H 'content-type: application/x-www-form-urlencoded' --data 'IMAGE_TAG=${IMAGE_TAG}' 'ec2-65-0-97-54.ap-south-1.compute.amazonaws.com:8080/job/reddit-clone-app/buildWithParameters?token=gitops-token'"
+                }
             }
-        }
-    }
-}
+         }
+    
     stage("Update the Deployment Tags") {
             steps {
                 sh """
