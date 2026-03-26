@@ -69,6 +69,15 @@ pipeline {
         }
       }
     }
+    stage("trigger downstream") {
+      steps {
+        build job: 'reddit-clone-app',
+          parameters: [string(name: 'IMAGE_TAG', value: IMAGE_TAG)],
+          propagate: false,
+          wait: false
+      }
+    }
+
     stage("docker push") {
     steps {
         withCredentials([string(credentialsId: 'JENKINS_API_TOKEN', variable: 'JENKINS_API_TOKEN')]) {
