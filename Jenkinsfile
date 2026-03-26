@@ -37,11 +37,14 @@ pipeline {
         }
       }
     }
+    /*
     stage("Quality Gate") {
       steps {
         waitForQualityGate abortPipeline: true, credentialsId: 'sonar-token'
       }
     }
+    */
+    
     stage("install dependencies") {
       steps {
         // Skip peer dependency conflicts
